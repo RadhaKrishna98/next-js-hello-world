@@ -33,6 +33,7 @@ jobs:
         cp package.json output/
         cp package-lock.json output/
         cp -r node_modules output/
+        cp server.js output/
 
     - name: Zip output
       run: cd output && zip -r ../app.zip .
