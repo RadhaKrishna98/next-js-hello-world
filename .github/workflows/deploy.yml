@@ -24,13 +24,14 @@ jobs:
     - name: Build Next.js app
       run: npm run build
 
-    - name: Move standalone output
+    - name: Move standalone output with modules
       run: |
         mkdir -p output
         cp -r .next/standalone/* output/
-        if [ -d ".next/static" ]; then cp -r .next/static output/.next/; fi
-        if [ -d "public" ]; then cp -r public output/; fi
+        if [ -d .next/static ]; then cp -r .next/static output/.next/; fi
+        if [ -d public ]; then cp -r public output/; fi
         cp package.json output/
+        cp -r node_modules output/
 
     - name: Zip output
       run: cd output && zip -r ../app.zip .
