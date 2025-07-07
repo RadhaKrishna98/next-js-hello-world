@@ -31,6 +31,7 @@ jobs:
         if [ -d .next/static ]; then cp -r .next/static output/.next/; fi
         if [ -d public ]; then cp -r public output/; fi
         cp package.json output/
+        cp package-lock.json output/
         cp -r node_modules output/
 
     - name: Zip output
