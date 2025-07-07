@@ -24,6 +24,12 @@ jobs:
     - name: Build Next.js app
       run: npm run build
 
+    - name: Install production dependencies only
+      run: npm ci --omit=dev
+
+    - name: Zip and deploy app
+      run: zip -r app.zip . -x "*.git*" -x "node_modules/**" -x ".github/**"
+
     - name: Azure Login
       uses: azure/login@v1
       with:
@@ -32,6 +38,5 @@ jobs:
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
-        app-name: nextjs-hello-world  # Your app service name
-        slot-name: production
-        package: .
+        app-name: nextjs-hello-world
+        package: ./app.zip
