@@ -1,4 +1,4 @@
-name: Deploy Next.js App to Azure
+name: Deploy Next.js to Azure
 
 on:
   push:
@@ -24,18 +24,23 @@ jobs:
     - name: Build Next.js app
       run: npm run build
 
-    - name: Install production dependencies only
-      run: npm ci --omit=dev
+    - name: Move standalone output
+      run: |
+        mkdir -p output
+        cp -r .next/standalone/* output/
+        cp -r .next/static output/.next/static
+        cp -r public output/public
+        cp package.json output/
 
-    - name: Zip and deploy app
-      run: zip -r app.zip . -x "*.git*" -x "node_modules/**" -x ".github/**"
+    - name: Zip output
+      run: cd output && zip -r ../app.zip .
 
     - name: Azure Login
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Deploy to Azure Web App
+    - name: Deploy to Azure
       uses: azure/webapps-deploy@v2
       with:
         app-name: nextjs-hello-world
