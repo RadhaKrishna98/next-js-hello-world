@@ -15,4 +15,5 @@ jobs:
           curl -X POST \
             -H "Authorization: Bearer ${{ secrets.AZURE_DEVOPS_AUTH }}" \
             -H "Content-Type: application/json" \
+            --data '{"resources":{}}' \
             https://dev.azure.com/Assignment-DevOps/Next%20js%20Hello%20world%20Application/_apis/pipelines/11/runs?api-version=7.1-preview.1
